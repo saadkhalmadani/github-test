@@ -1,0 +1,25 @@
+
+# Data Quality & Validation Workflow
+name: Data Quality Checks
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  data-quality:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run data quality scripts
+        run: python scripts/check_data_quality.py

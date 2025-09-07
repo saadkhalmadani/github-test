@@ -1,0 +1,59 @@
+
+# Full DataOps CI/CD Pipeline Workflow
+name: Full DataOps CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Lint code
+        run: flake8 src/
+
+      - name: Run tests
+        run: pytest tests/
+
+      - name: Run data quality checks
+        run: python scripts/check_data_quality.py
+
+  cd:
+    runs-on: ubuntu-22.04
+    needs: ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build Docker image
+        run: docker build -t my-data-pipeline:22.04 .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKERHUB_USER }}/my-data-pipeline:22.04
+
+      - name: Trigger Airflow DAG
+        run: |
+          curl -X POST "http://airflow.example.com/api/v1/dags/my_dag/dagRuns" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer $AIRFLOW_API_TOKEN" \
+          -d '{"conf": {}, "dag_run_id": "github-${GITHUB_SHA}"}'
+        env:
+          AIRFLOW_API_TOKEN: ${{ secrets.AIRFLOW_API_TOKEN }}

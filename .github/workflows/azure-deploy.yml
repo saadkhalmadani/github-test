@@ -1,0 +1,36 @@
+
+# Azure Deployment Workflow
+name: Azure DataOps Deployment
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Build Docker image
+        run: docker build -t my-data-pipeline:22.04 .
+
+      - name: Push to Azure Container Registry
+        run: |
+          docker tag my-data-pipeline:22.04 myregistry.azurecr.io/my-data-pipeline:22.04
+          docker push myregistry.azurecr.io/my-data-pipeline:22.04
+
+      - name: Deploy to Azure Container Instances
+        run: |
+          az container create \
+            --resource-group myResourceGroup \
+            --name my-data-pipeline \
+            --image myregistry.azurecr.io/my-data-pipeline:22.04 \
+            --cpu 1 --memory 1.5 \
+            --restart-policy OnFailure
