@@ -2,22 +2,20 @@ name: jobs Workflow
 
 on: 
 
-    workflow_dispatch:
+    # workflow_dispatch:
+    push:
+      branches: [main, develop, release/**]
+      paths:
+        - 'src/**'
+        - 'tests/**'
+    pull_request:
+      branches: [main, develop, release/**]
+      paths:
+        - 'src/**'
+        - 'tests/**'
 
-    # push:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
-
-    # pull_request:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
-
-    # schedule:
-    #   - cron: '*/2 * * * *'
+    schedule:
+      - cron: '*/2 * * * *'
 
 jobs:
   job_1:
