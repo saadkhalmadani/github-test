@@ -4,18 +4,18 @@ on:
 
     push:
       branches: [main, develop, release/**]
-      # paths:
-      #   - 'src/**'
-      #   - 'tests/**'
+      paths:
+        - 'src/**'
+        - 'tests/**'
 
-    # pull_request:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
+    pull_request:
+      branches: [main, develop, release/**]
+      paths:
+        - 'src/**'
+        - 'tests/**'
 
-    # schedule:
-    #   - cron: '2 * * * *' 
+    schedule:
+      - cron: '2 * * * *'
 
 jobs:
 
