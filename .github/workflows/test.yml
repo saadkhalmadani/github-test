@@ -2,45 +2,46 @@ name: jobs Workflow
 
 on: 
 
-    # workflow_dispatch:
-    # push:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
-    # pull_request:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
+  # push:
+  #     branches: [main, develop, release/**]
+  #     paths:
+  #         - 'src/**'
+  #         - 'tests/**'
+  # pull_request:
+  #     branches: [main, develop, release/**]
+  #     paths:
+  #         - 'src/**'
+  #         - 'tests/**'
 
-    schedule:
-      - cron: '*/2 * * * *'
-
+  workflow_dispatch:
+  
+  schedule:
+    - cron: '*/2 * * * *'
+    
 jobs:
-  job_1:
-    runs-on: ubuntu-22.04
+    job_1:
+      runs-on: ubuntu-22.04
 
-    steps:
-      - name: Hello World
-        run: echo "Hello, World! from job_1"
-  job_2:
-    runs-on: ubuntu-22.04
+      steps:
+        - name: Hello World
+          run: echo "Hello, World! from job_1"
+    job_2:
+      runs-on: ubuntu-22.04
 
 
-    steps:
-      - name: Hello World
-        run: echo "Hello, World! from job_2"
-  job_3:
-    runs-on: ubuntu-22.04
+      steps:
+        - name: Hello World
+          run: echo "Hello, World! from job_2"
+    job_3:
+      runs-on: ubuntu-22.04
 
-    steps:
-      - name: Hello World
-        run: echo "Hello, World! from job_3"
-  job_4:
-    runs-on: ubuntu-22.04
+      steps:
+        - name: Hello World
+          run: echo "Hello, World! from job_3"
+    job_4:
+      runs-on: ubuntu-22.04
 
-    steps:
-      - name: Hello World
-        run: echo "Hello, World! from job_4"
+      steps:
+        - name: Hello World
+          run: echo "Hello, World! from job_4"
 
