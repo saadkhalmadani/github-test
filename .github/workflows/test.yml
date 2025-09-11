@@ -29,21 +29,18 @@ jobs:
     runs-on: ubuntu-22.04
 
 
-    needs: job_1
     steps:
       - name: Hello World
         run: echo "Hello, World! from job_2"
   job_3:
     runs-on: ubuntu-22.04
 
-    needs: job_1
     steps:
       - name: Hello World
         run: echo "Hello, World! from job_3"
   job_4:
     runs-on: ubuntu-22.04
 
-    needs: [job_1, job_2]
     steps:
       - name: Hello World
         run: echo "Hello, World! from job_4"
