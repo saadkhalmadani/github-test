@@ -1,41 +1,43 @@
-# name: CronJob Workflow
+name: jobs Workflow
 
-# on: 
+on: 
 
-#     push:
-#       branches: [main, develop, release/**]
-#       paths:
-#         - 'src/**'
-#         - 'tests/**'
+    push:
+      branches: [main, develop, release/**]
+      # paths:
+      #   - 'src/**'
+      #   - 'tests/**'
 
-#     pull_request:
-#       branches: [main, develop, release/**]
-#       paths:
-#         - 'src/**'
-#         - 'tests/**'
+    # pull_request:
+    #   branches: [main, develop, release/**]
+    #   paths:
+    #     - 'src/**'
+    #     - 'tests/**'
 
-#     schedule:
-#       - cron: '2 * * * *' 
-
-# jobs:
-
-#   say-hello-world:
-
-#     runs-on: ubuntu-latest
-
-#     steps:
-
-#       - name: Hello World
-#         run: echo "Hello, World!"
-
-name: Incident Report Handler
-on:
-  repository_dispatch:
-    types: [incident_report]
+    # schedule:
+    #   - cron: '2 * * * *' 
 
 jobs:
-  handle-incident:
-    runs-on: ubuntu-latest
+
+  job_1:
+    runs-on: ubuntu-22.04
+
     steps:
-      - name: Print incident details
-        run: echo "Incident reported"
+      - name: Hello World
+        run: echo "Hello, World! from job_1"
+  job_2:
+    runs-on: ubuntu-22.04
+
+
+    needs: job_1
+    steps:
+      - name: Hello World
+        run: echo "Hello, World! from job_2"
+  job_3:
+    runs-on: ubuntu-22.04
+
+    needs: [job_1, job_2]
+    steps:
+      - name: Hello World
+        run: echo "Hello, World! from job_3"
+
