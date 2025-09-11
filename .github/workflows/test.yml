@@ -15,7 +15,7 @@ on:
         - 'tests/**'
 
     schedule:
-      - cron: '2 * * * *'
+      - cron: '*/2 * * * *'
 
 jobs:
   job_1:
