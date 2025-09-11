@@ -1,0 +1,29 @@
+name: CronJob Workflow
+
+on: 
+
+    push:
+      branches: [main, develop, release/**]
+      paths:
+        - 'src/**'
+        - 'tests/**'
+
+    pull_request:
+      branches: [main, develop, release/**]
+      paths:
+        - 'src/**'
+        - 'tests/**'
+
+    schedule:
+      - cron: '2 * * * *' 
+
+jobs:
+
+  say-hello-world:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Hello World
+        run: echo "Hello, World!"
