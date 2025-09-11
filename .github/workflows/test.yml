@@ -28,6 +28,7 @@
 #       - name: Hello World
 #         run: echo "Hello, World!"
 
+name: Incident Report Handler
 on:
   repository_dispatch:
     types: [incident_report]
