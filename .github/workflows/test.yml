@@ -14,7 +14,7 @@ on:
     # #     - 'tests/**'
 
     schedule:
-      - cron: '0 * * * *'
+      - cron: '10 * * * *'
 
 jobs:
 
