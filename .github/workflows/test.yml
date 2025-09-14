@@ -8,10 +8,10 @@ on:
     #     - 'src/**'
     #     - 'tests/**'
     # pull_request:
-    # #   branches: [main, develop, release/**]
-    # #   paths:
-    # #     - 'src/**'
-    # #     - 'tests/**'
+    #   branches: [main, develop, release/**]
+    #   paths:
+    #     - 'src/**'
+    #     - 'tests/**'
 
     schedule:
       - cron: '0 * * * *'
