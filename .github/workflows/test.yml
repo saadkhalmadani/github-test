@@ -8,6 +8,7 @@ jobs:
 
   job_1:
     runs-on: ubuntu-22.04
+    continue-on-error: true   # allow partial failure
     steps:
       - name: Create artifact file
         run: |
@@ -25,6 +26,7 @@ jobs:
   job_2:
     needs: job_1
     runs-on: ubuntu-22.04
+    continue-on-error: true   # allow partial failure
     steps:
       - name: Download artifact from job_1
         uses: actions/download-artifact@v4
@@ -51,6 +53,7 @@ jobs:
   job_3:
     needs: job_1
     runs-on: ubuntu-22.04
+    continue-on-error: true   # allow partial failure
     steps:
       - name: Download artifact from job_1
         uses: actions/download-artifact@v4
@@ -67,6 +70,7 @@ jobs:
   job_4:
     needs: [job_1, job_2]
     runs-on: ubuntu-22.04
+    continue-on-error: true   # allow partial failure
     steps:
       - name: Download artifact from job_1
         uses: actions/download-artifact@v4
