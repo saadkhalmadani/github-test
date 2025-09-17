@@ -1,94 +1,88 @@
+# Define the name of the workflow
 name: jobs Workflow
 
-on: 
+on:
 
+  # Trigger the workflow manually
   workflow_dispatch:
 
 jobs:
 
+  # Define the first job
   job_1:
-    runs-on: ubuntu-22.04
-    continue-on-error: true   # allow partial failure
+    runs-on: ubuntu-22.04  # Specify the operating system for the job
+    continue-on-error: true   # Allow partial failure
     steps:
       - name: Create artifact file
         run: |
-          echo "Data from job_1" > job1.txt
-
+          echo "Data from job_1" > job1.txt  # Write data to a file
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4  # Use the upload-artifact action
         with:
-          name: job1-artifact
-          path: job1.txt
-
+          name: job1-artifact  # Name of the artifact
+          path: job1.txt  # Path to the artifact file
       - name: Hello World
-        run: echo "Hello, World! from job_1"
+        run: echo "Hello, World! from job_1"  # Print a message
 
+  # Define the second job
   job_2:
-    needs: job_1
+    needs: job_1  # Define dependency on job_1
     runs-on: ubuntu-22.04
-    continue-on-error: true   # allow partial failure
+    continue-on-error: true   # Allow partial failure
     steps:
       - name: Download artifact from job_1
         uses: actions/download-artifact@v4
         with:
-          name: job1-artifact
-          path: ./downloaded
-
+          name: job1-artifact  # Name of the artifact to download
+          path: ./downloaded  # Path to save the downloaded artifact
       - name: Show artifact content
-        run: cat ./downloaded/job1.txt
-
+        run: cat ./downloaded/job1.txt  # Display the content of the artifact
       - name: Create artifact for job_2
         run: |
-          echo "Data from job_2" > job2.txt
-
+          echo "Data from job_2" > job2.txt  # Write data to a file
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: job2-artifact
-          path: job2.txt
-
+          name: job2-artifact  # Name of the artifact
+          path: job2.txt  # Path to the artifact file
       - name: Hello World
-        run: echo "Hello, World! from job_2"
+        run: echo "Hello, World! from job_2"  # Print a message
 
+  # Define the third job
   job_3:
-    needs: job_1
+    needs: job_1  # Define dependency on job_1
     runs-on: ubuntu-22.04
-    continue-on-error: true   # allow partial failure
+    continue-on-error: true   # Allow partial failure
     steps:
       - name: Download artifact from job_1
         uses: actions/download-artifact@v4
         with:
-          name: job1-artifact
-          path: ./downloaded
-
+          name: job1-artifact  # Name of the artifact to download
+          path: ./downloaded  # Path to save the downloaded artifact
       - name: Show artifact content
-        run: cat ./downloaded/job1.txt
-
+        run: cat ./downloaded/job1.txt  # Display the content of the artifact
       - name: Hello World
-        run: echo "Hello, World! from job_3"
+        run: echo "Hello, World! from job_3"  # Print a message
 
+  # Define the fourth job
   job_4:
-    needs: [job_1, job_2]
+    needs: [job_1, job_2]  # Define dependencies on job_1 and job_2
     runs-on: ubuntu-22.04
-    continue-on-error: true   # allow partial failure
+    continue-on-error: true   # Allow partial failure
     steps:
       - name: Download artifact from job_1
         uses: actions/download-artifact@v4
         with:
-          name: job1-artifact
-          path: ./job1_data
-
+          name: job1-artifact  # Name of the artifact to download
+          path: ./job1_data  # Path to save the downloaded artifact
       - name: Download artifact from job_2
         uses: actions/download-artifact@v4
         with:
-          name: job2-artifact
-          path: ./job2_data
-
+          name: job2-artifact  # Name of the artifact to download
+          path: ./job2_data  # Path to save the downloaded artifact
       - name: Show job_1 artifact
-        run: cat ./job1_data/job1.txt
-
+        run: cat ./job1_data/job1.txt  # Display the content of the artifact from job_1
       - name: Show job_2 artifact
-        run: cat ./job2_data/job2.txt
-
+        run: cat ./job2_data/job2.txt  # Display the content of the artifact from job_2
       - name: Hello World
-        run: echo "Hello, World! from job_4"
+        run: echo "Hello, World! from job_4"  # Print a message
