@@ -1,45 +1,90 @@
 name: jobs Workflow
 
 on: 
-    # workflow_dispatch:
-    # push:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
-    # pull_request:
-    #   branches: [main, develop, release/**]
-    #   paths:
-    #     - 'src/**'
-    #     - 'tests/**'
-
-    schedule:
-      - cron: '0 * * * *'
+  schedule:
+    - cron: '0 * * * *'
 
 jobs:
 
   job_1:
     runs-on: ubuntu-22.04
     steps:
+      - name: Create artifact file
+        run: |
+          echo "Data from job_1" > job1.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: job1-artifact
+          path: job1.txt
+
       - name: Hello World
         run: echo "Hello, World! from job_1"
+
   job_2:
     needs: job_1
     runs-on: ubuntu-22.04
     steps:
+      - name: Download artifact from job_1
+        uses: actions/download-artifact@v4
+        with:
+          name: job1-artifact
+          path: ./downloaded
+
+      - name: Show artifact content
+        run: cat ./downloaded/job1.txt
+
+      - name: Create artifact for job_2
+        run: |
+          echo "Data from job_2" > job2.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: job2-artifact
+          path: job2.txt
+
       - name: Hello World
         run: echo "Hello, World! from job_2"
+
   job_3:
-    needs:
-      - job_1
+    needs: job_1
     runs-on: ubuntu-22.04
     steps:
+      - name: Download artifact from job_1
+        uses: actions/download-artifact@v4
+        with:
+          name: job1-artifact
+          path: ./downloaded
+
+      - name: Show artifact content
+        run: cat ./downloaded/job1.txt
+
       - name: Hello World
         run: echo "Hello, World! from job_3"
+
   job_4:
     needs: [job_1, job_2]
     runs-on: ubuntu-22.04
     steps:
+      - name: Download artifact from job_1
+        uses: actions/download-artifact@v4
+        with:
+          name: job1-artifact
+          path: ./job1_data
+
+      - name: Download artifact from job_2
+        uses: actions/download-artifact@v4
+        with:
+          name: job2-artifact
+          path: ./job2_data
+
+      - name: Show job_1 artifact
+        run: cat ./job1_data/job1.txt
+
+      - name: Show job_2 artifact
+        run: cat ./job2_data/job2.txt
+
       - name: Hello World
         run: echo "Hello, World! from job_4"
-
