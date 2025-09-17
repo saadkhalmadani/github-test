@@ -66,7 +66,7 @@ jobs:
 
   # Define the fourth job
   job_4:
-    needs: [job_1, job_2]  # Define dependencies on job_1 and job_2
+    needs: [job_2, job_3]  # Define dependencies on job_2 and job_3
     runs-on: ubuntu-22.04
     continue-on-error: true   # Allow partial failure
     steps:
